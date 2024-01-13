@@ -1,0 +1,6 @@
+{
+    "heading": "Vite + React",
+    "count": "count is {count}",
+    "help": "Edit {src} and save to test HMR",
+    "docs": "Click on the Vite and React logos to learn more"
+}
