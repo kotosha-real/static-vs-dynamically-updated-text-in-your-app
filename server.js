@@ -30,6 +30,10 @@ if (!isProduction) {
     app.use(base, sirv('./dist/client', { extensions: [] }))
 }
 
+// Attach messages to the app instance at the start of the app
+const messages = JSON.parse(await fs.readFile('./static/messages.json', 'utf-8'))
+app.__data__ = { messages }
+
 // Serve HTML
 app.use('*', async (req, res) => {
     try {
@@ -47,7 +51,8 @@ app.use('*', async (req, res) => {
             render = (await import('./dist/server/entry-server.js')).render
         }
 
-        const rendered = await render(url, ssrManifest)
+        // Pass app data to the render function
+        const rendered = await render(url, ssrManifest, app.__data__)
 
         const html = template
             .replace(`<!--app-head-->`, rendered.head ?? '')
