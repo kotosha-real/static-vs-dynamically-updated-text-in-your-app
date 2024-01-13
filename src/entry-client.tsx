@@ -3,7 +3,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { IntlProvider } from 'react-intl'
 import App from './App'
-import messages from '../static/messages.json'
+
+const messages = window.__data__?.messages || {}
 
 ReactDOM.hydrateRoot(
     document.getElementById('root') as HTMLElement,
