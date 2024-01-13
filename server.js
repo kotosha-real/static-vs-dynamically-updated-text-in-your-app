@@ -1,5 +1,8 @@
 import fs from 'node:fs/promises'
+import Chance from 'chance'
 import express from 'express'
+
+const chance = new Chance()
 
 // Constants
 const isProduction = process.env.NODE_ENV === 'production'
@@ -33,6 +36,11 @@ if (!isProduction) {
 // Attach messages to the app instance at the start of the app
 const messages = JSON.parse(await fs.readFile('./static/messages.json', 'utf-8'))
 app.__data__ = { messages }
+
+// Rotate in-memory messages
+setInterval(() => {
+    app.__data__.messages.heading = chance.name()
+}, 5000)
 
 // Serve HTML
 app.use('*', async (req, res) => {
